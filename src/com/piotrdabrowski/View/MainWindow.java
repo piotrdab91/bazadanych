@@ -12,7 +12,7 @@ public class MainWindow {
     public MainWindow() {
         JFrame mainFrame = new JFrame();
         mainFrame.setSize(defaultDim.getWidth(),defaultDim.getHeight());
-        mainFrame.setTitle("Database Manager");
+        mainFrame.setTitle("Database Managerq");
         mainFrame.setVisible(true);
     }
 
