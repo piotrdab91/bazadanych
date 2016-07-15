@@ -1,4 +1,4 @@
-package com.piotrdabrowski;
+package com.piotrdabrowski.Model;
 
 import java.sql.*;
 
