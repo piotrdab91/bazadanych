@@ -1,7 +1,7 @@
 package com.piotrdabrowski.Model;
 
 
-import com.piotrdabrowski.View.MainWindow;
+import com.piotrdabrowski.View.Starter;
 
 public class Main {
 
@@ -14,7 +14,8 @@ public class Main {
         employeeMan.showAll();
         employeeMan.updateEmpleoyeeName(12345678911L,"Jan");
                                                                 */
-        MainWindow windowMain = new MainWindow();
+        Starter windowMain = new Starter();
+
 
 
 
