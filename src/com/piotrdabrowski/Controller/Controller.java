@@ -66,5 +66,10 @@ public class Controller {
         view.getMainFrame().repaint();
     }
 
+    public void backToEmployeeManager() {
+        view.getMainFrame().getEmployeePanel().getNewEmployeePanel().setVisible(false);
+        view.getMainFrame().getEmployeePanel().getEmployeeModifyPanel().setVisible(true);
+    }
+
 
 }

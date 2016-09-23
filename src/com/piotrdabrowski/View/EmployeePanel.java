@@ -36,11 +36,10 @@ public class EmployeePanel extends JPanel {
     }
 
     void loadAndShowData() {
-
         try {
             employees = model.getEmployeeDAO().getAllEmployees();
         } catch (Exception ex) {
-
+            System.out.println("Blad pobrania danych z BD");
         }
         addScrollPaneAndTable();
         addEmployeeModifyPanel();
@@ -52,13 +51,12 @@ public class EmployeePanel extends JPanel {
         try {
             employees = model.getEmployeeDAO().getAllEmployees();
         } catch (Exception ex) {
-
+            System.out.println("Blad pobrania danych z BD");
         }
         this.remove(scroll);
         this.remove(employeeModifyPanel);
         addScrollPaneAndTable();
         addEmployeeModifyPanel();
-
     }
 
     private static void addComponent(Container container, Component component,

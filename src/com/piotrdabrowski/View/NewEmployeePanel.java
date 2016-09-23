@@ -7,11 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  * Created by pdabrow on 16.09.16.
  */
-public class NewEmployeePanel extends JPanel {
+public class NewEmployeePanel extends JPanel implements FocusListener, ActionListener {
     private static final Insets insets = new Insets(0, 0, 0, 0);
     Controller controller;
 
@@ -30,7 +32,8 @@ public class NewEmployeePanel extends JPanel {
     private JTextField jobPositionTextField = new JTextField();
     private JTextField headquaterIDTextField = new JTextField();
 
-    private JButton acceptButton = new JButton("zatwierdz");
+    private JButton acceptButton = new JButton("Dodaj");
+    private JButton cancelButton = new JButton("Anuluj");
 
     String name;
     String lastName;
@@ -43,10 +46,10 @@ public class NewEmployeePanel extends JPanel {
     public NewEmployeePanel(Controller controller) {
         this.controller = controller;
         setLayout(new GridBagLayout());
+
         addLabels();
         addTextFields();
-        addComponent(this, new JPanel(), 4, 0, 1, 6, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        addComponent(this, acceptButton, 0, 6, 3, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        addButtonsPanel();
         addListeners();
         setVisible(false);
 
@@ -61,6 +64,7 @@ public class NewEmployeePanel extends JPanel {
     }
 
     private void addLabels() {
+
         addComponent(this, message, 0, 0, 4, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);
         addComponent(this, nameLabel, 0, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE);
         addComponent(this, lastNameLabel, 2, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE);
@@ -77,47 +81,78 @@ public class NewEmployeePanel extends JPanel {
         addComponent(this, salaryTextField, 3, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
         addComponent(this, jobPositionTextField, 1, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
         addComponent(this, headquaterIDTextField, 3, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
+        addListeners();
+    }
+
+    private void addButtonsPanel() {
+        addComponent(this, new JPanel(), 4, 0, 1, 6, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        addComponent(this, acceptButton, 0, 6, 3, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);
+        addComponent(this, cancelButton, 2, 6, 3, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);
     }
 
 
-    ActionListener textListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == nameTextField)
-                name = nameTextField.getText();
-            else if (e.getSource() == lastNameTextField)
-                lastName = lastNameTextField.getText();
-            else if (e.getSource() == salaryTextField)
-                salary = salaryTextField.getText();
-            else if (e.getSource() == personalIdNumTextField)
-                personalIdNum = personalIdNumTextField.getText();
-            else if (e.getSource() == jobPositionTextField)
-                jobPosition = jobPositionTextField.getText();
-            else if (e.getSource() == headquaterIDTextField)
-                headquaterIdNum = headquaterIDTextField.getText();
-            System.out.println("The entered text is: " + personalIdNum);
-        }
-    };
-    ActionListener acceptListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == acceptButton)
             controller.addEmploeyeeToModel();
+        else if (e.getSource() == cancelButton)
+            controller.backToEmployeeManager();
+        clearTextFields();
 
-        }
-    };
+    }
 
     private void addListeners() {
-        nameTextField.addActionListener(textListener);
-        lastNameTextField.addActionListener(textListener);
-        salaryTextField.addActionListener(textListener);
-        personalIdNumTextField.addActionListener(textListener);
-        jobPositionTextField.addActionListener(textListener);
-        headquaterIDTextField.addActionListener(textListener);
-        acceptButton.addActionListener(acceptListener);
+        nameTextField.addFocusListener(this);
+        lastNameTextField.addFocusListener(this);
+        salaryTextField.addFocusListener(this);
+        personalIdNumTextField.addFocusListener(this);
+        jobPositionTextField.addFocusListener(this);
+        headquaterIDTextField.addFocusListener(this);
+        acceptButton.addActionListener(this);
+        cancelButton.addActionListener(this);
 
     }
 
     public Employee createNewEmployee() {
-        return new Employee(91082606574L, "5", "ccc", "chuj", 3456, "dupa");
+        return new Employee(Long.valueOf(personalIdNum), headquaterIdNum, name, lastName,
+                Integer.valueOf(salary), jobPosition);
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource() == nameTextField) {
+            name = nameTextField.getText();
+            System.out.println("imię " + name);
+        } else if (e.getSource() == lastNameTextField) {
+            lastName = lastNameTextField.getText();
+            System.out.println("nazwisko " + lastName);
+        } else if (e.getSource() == salaryTextField) {
+            salary = salaryTextField.getText();
+            System.out.println("wynagrodzenie " + salary);
+        } else if (e.getSource() == personalIdNumTextField) {
+            personalIdNum = personalIdNumTextField.getText();
+            System.out.println("pesel " + personalIdNum);
+        } else if (e.getSource() == jobPositionTextField) {
+            jobPosition = jobPositionTextField.getText();
+            System.out.println("stanowisko " + jobPosition);
+        } else if (e.getSource() == headquaterIDTextField) {
+            headquaterIdNum = headquaterIDTextField.getText();
+            System.out.println("siedziba " + headquaterIdNum);
+        }
+
+
+    }
+
+    void clearTextFields() {
+        nameTextField.setText("");
+        lastNameTextField.setText("");
+        headquaterIDTextField.setText("");
+        personalIdNumTextField.setText("");
+        salaryTextField.setText("");
+        jobPositionTextField.setText("");
     }
 }

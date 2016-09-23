@@ -35,12 +35,14 @@ public class EmployeeDAO {
         List<Employee> list = new ArrayList<Employee>();
         Statement statement = null;
         ResultSet resultSet = null;
+        list.clear();
 
         try{
             statement = connectionToOracleDatabase.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM PRACOWNIK");
 
             while (resultSet.next()) {
+
                 Employee tempEmployee = convertRowtToEmployee(resultSet);
                 list.add(tempEmployee);
             }
