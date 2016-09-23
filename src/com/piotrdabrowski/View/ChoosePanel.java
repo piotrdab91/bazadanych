@@ -3,7 +3,8 @@ package com.piotrdabrowski.View;
 import javax.swing.*;
 import java.awt.*;
 
-class ChoosePanel extends JPanel {
+// TODO: 16.09.16 improve code, divide code on parts, make better SetButton method  
+public class ChoosePanel extends JPanel {
 
     JButton employeeButton = new JButton("Pracownicy");
     JButton projectsButton = new JButton("Projekty");
@@ -57,7 +58,27 @@ class ChoosePanel extends JPanel {
         gc.gridx = 0;
         gc.gridy = 6;
         add(worksOnButton, gc);
+        allButtonDisenable();
 
     }
+
+    void allButtonDisenable() {
+        employeeButton.setEnabled(false);
+        projectsButton.setEnabled(false);
+        supervisorsButton.setEnabled(false);
+        clientsButton.setEnabled(false);
+        headquatersButton.setEnabled(false);
+        worksOnButton.setEnabled(false);
+    }
+
+    public void ButtonsEnable() {
+        employeeButton.setEnabled(true);
+        projectsButton.setEnabled(true);
+        supervisorsButton.setEnabled(true);
+        clientsButton.setEnabled(true);
+        headquatersButton.setEnabled(true);
+        worksOnButton.setEnabled(true);
+    }
 }
+
 

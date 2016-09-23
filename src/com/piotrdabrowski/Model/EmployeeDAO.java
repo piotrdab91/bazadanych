@@ -1,38 +1,57 @@
 package com.piotrdabrowski.Model;
 
-import com.piotrdabrowski.Model.Communication;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pdabrow on 08.07.16.
  */
-public class EmployeeManager {
+public class EmployeeDAO {
     private Connection connectionToOracleDatabase;
 
-   public EmployeeManager(){
 
-          connectionToOracleDatabase = Communication.connectToDatabase();
+    public EmployeeDAO(Connection conn) {
+
+        connectionToOracleDatabase = conn;
     }
 
-    public void showAll (){
+    private Employee convertRowtToEmployee(ResultSet rs) throws Exception {
+        Employee employee = new Employee(rs.getLong(1), rs.getString(2), rs.getString(3),
+                rs.getString(4), rs.getInt(5), rs.getString(6));
+
+        return employee;
+    }
+
+    public static void close(Statement statement, ResultSet resultSet) throws SQLException {
+        if (statement != null)
+            statement.close();
+
+        if (resultSet != null)
+            resultSet.close();
+    }
+
+    public List<Employee> getAllEmployees() throws Exception {
+        List<Employee> list = new ArrayList<Employee>();
+        Statement statement = null;
+        ResultSet resultSet = null;
+
         try{
-            Statement statement = connectionToOracleDatabase.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * from PRACOWNIK");
-            System.out.println("Pracownicy: ");
-            while (resultSet.next()){
+            statement = connectionToOracleDatabase.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM PRACOWNIK");
 
-                System.out.println(resultSet.getString(1)+" "+resultSet.getString(2)+" "+resultSet.getString(3)+" " +
-                                    resultSet.getInt(4)+ " " + resultSet.getString(5)+" "+ resultSet.getString(6));
+            while (resultSet.next()) {
+                Employee tempEmployee = convertRowtToEmployee(resultSet);
+                list.add(tempEmployee);
             }
-        }
-        catch(Exception e){
-            System.out.println("Blad");
+
+            return list;
+        } finally {
+
+            close(statement, resultSet);
         }
     }
+
     public void addEmployee(long sPESEL, String sIMIE, String sNAZWISKO, int sWYNAGRODZENIE, String sID_SIEDZIBY, String sSTANOWSIKO ){
 
         try {
@@ -46,7 +65,8 @@ public class EmployeeManager {
             preStatement.execute();
        }
        catch (Exception e){
-           System.err.println("Blad wstawienie do pracwonikow");
+
+           System.err.println("Blad wstawienie do pracwonikow " + e.getMessage());
        }
     }
     public void deleteEmployee(long peselToDelete){
@@ -66,7 +86,7 @@ public class EmployeeManager {
             preparedStatement.setString(1,newName);
             preparedStatement.setLong(2,PESEL);
             preparedStatement.execute();
-            showAll();
+            getAllEmployees();
         }
         catch (Exception e)
         {

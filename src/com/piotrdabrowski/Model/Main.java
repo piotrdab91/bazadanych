@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
        /* Communication oracle = new Communication();
-        EmployeeManager employeeMan = new EmployeeManager();
+        EmployeeDAO employeeMan = new EmployeeDAO();
         //employeeMan.addEmployee();
         //employeeMan.addEmployee(91082606571L,"Stasiek","Portalski",3000,"5","Rolnik");
         //employeeMan.deleteEmployee(8);
