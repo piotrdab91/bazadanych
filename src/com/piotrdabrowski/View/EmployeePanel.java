@@ -19,6 +19,7 @@ public class EmployeePanel extends JPanel {
 
     private JTable table;
     private EmployeeModifyPanel employeeModifyPanel;
+    private DeletePanel deletePanel;
     private NewEmployeePanel newEmployeePanel;
     private JScrollPane scroll;
 
@@ -40,10 +41,12 @@ public class EmployeePanel extends JPanel {
             employees = model.getEmployeeDAO().getAllEmployees();
         } catch (Exception ex) {
             System.out.println("Blad pobrania danych z BD");
+            JOptionPane.showMessageDialog(null, "Blad pobrania danych z BD");
         }
         addScrollPaneAndTable();
         addEmployeeModifyPanel();
         addNewEmployeePanel();
+        addDeletePanel();
         setVisible(true);
     }
 
@@ -52,11 +55,12 @@ public class EmployeePanel extends JPanel {
             employees = model.getEmployeeDAO().getAllEmployees();
         } catch (Exception ex) {
             System.out.println("Blad pobrania danych z BD");
+            JOptionPane.showMessageDialog(null, "Blad pobrania danych z BD");
         }
         this.remove(scroll);
-        this.remove(employeeModifyPanel);
+        //this.remove(employeeModifyPanel);
         addScrollPaneAndTable();
-        addEmployeeModifyPanel();
+        //addEmployeeModifyPanel();
     }
 
     private static void addComponent(Container container, Component component,
@@ -81,8 +85,14 @@ public class EmployeePanel extends JPanel {
     public void addNewEmployeePanel() {
         newEmployeePanel = new NewEmployeePanel(controller);
         addComponent(this, newEmployeePanel, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-        setVisible(false);
+        newEmployeePanel.setVisible(false);
 
+    }
+
+    public void addDeletePanel() {
+        deletePanel = new DeletePanel(controller);
+        addComponent(this, deletePanel, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+        deletePanel.setVisible(false);
     }
 
     public EmployeeModifyPanel getEmployeeModifyPanel() {
@@ -91,6 +101,14 @@ public class EmployeePanel extends JPanel {
 
     public NewEmployeePanel getNewEmployeePanel() {
         return newEmployeePanel;
+    }
+
+    public DeletePanel getDeletePanel() {
+        return deletePanel;
+    }
+
+    public JTable getTable() {
+        return table;
     }
 }
 

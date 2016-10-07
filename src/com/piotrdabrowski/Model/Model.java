@@ -2,6 +2,7 @@ package com.piotrdabrowski.Model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Created by pdabrow on 14.09.16.
@@ -44,6 +45,21 @@ public class Model {
             System.out.println("Błąd");
         }
 
+    }
+
+    public void setSavepoint() throws SQLException {
+        conn.setAutoCommit(false);
+        conn.setSavepoint();
+    }
+
+    public void commit() throws SQLException {
+        conn.commit();
+        conn.setAutoCommit(true);
+    }
+
+    public void rollback() throws SQLException {
+        conn.rollback();
+        conn.setAutoCommit(true);
     }
 }
 

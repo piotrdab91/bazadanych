@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by pdabrow on 16.09.16.
  */
-public class EmployeeModifyPanel extends JPanel {
+public class EmployeeModifyPanel extends JPanel implements ActionListener {
     private static final Insets insets = new Insets(0, 0, 0, 0);
     Controller controller;
 
@@ -40,19 +40,16 @@ public class EmployeeModifyPanel extends JPanel {
         addComponent(this, buttonDelete, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);
         addComponent(this, buttonUpdate, 2, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);
     }
-
     private void addButtonsListeners() {
-        buttonNew.addActionListener(NewButtonListener);
-
-
+        buttonNew.addActionListener(this);
+        buttonDelete.addActionListener(this);
     }
 
-    ActionListener NewButtonListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == buttonNew)
             controller.newEmployeeManager();
-        }
-    };
-
-
+        else if (e.getSource() == buttonDelete)
+            controller.deleteManager();
+    }
 }

@@ -18,9 +18,11 @@ public class ConnectToDatabasePanel extends JPanel {
         super(new GridBagLayout());
         GridBagConstraints gc_1 = new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.SOUTH,
                 GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
+
         GridBagConstraints gc_2 = new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.NORTH,
                 GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
-        JTextArea text = new JTextArea("Połącz się z bazą danych");
+
+        JLabel text = new JLabel("Połącz się z bazą danych");
         add(text, gc_1);
         add(connectButton, gc_2);
     }
